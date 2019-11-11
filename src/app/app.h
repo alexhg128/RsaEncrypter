@@ -1,3 +1,5 @@
+#include <string>
+
 namespace RsaEncrypter
 {
 
@@ -6,6 +8,9 @@ namespace RsaEncrypter
         public:
             App();
             void bootstrap();
+            void title();
+            void main_menu();
+            void simple_rsa();
     };
 
 }
