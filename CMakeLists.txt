@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 2.8.9)
 set (CMAKE_CXX_STANDARD 11)
 project (RsaEncrypter)
-add_executable  (   bin/RsaEncrypter 
+add_executable  (   
+                    bin/RsaEncrypter 
                     src/main.cpp 
                     src/app/app.cpp
                     src/encryption/rsa.cpp

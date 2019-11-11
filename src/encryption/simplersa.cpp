@@ -10,9 +10,9 @@
 
 RSA::KeyPair RSA::generate_simple_keypair(int x, int y)
 {
-    long n = x * y;
-    long p = (x - 1) * (y - 1);
-    long e = p / 4;
+    long long n = x * y;
+    long long p = (x - 1) * (y - 1);
+    long long e = p / 4;
     while (!RSA::is_prime(e))
     {
         e--;
@@ -25,14 +25,16 @@ RSA::KeyPair RSA::generate_simple_keypair(int x, int y)
             break;
         }
     }
-    int w, t;
-    long d;
-    RSA::xgcd(e, p, w, t);
+    long long w, t;
+    long long d;
+    /*RSA::xgcd(e, p, w, t);
     if(w < 0)
     {
         w = p + w;
     }
-    d = w;
+    d = w;*/
+    d = RSA::inverse2(e, p);
+    std::cout << n << " " << p << " " << e << " " << w << " " << t << std::endl;
     RSA::KeyPair key = RSA::KeyPair();
     key.public_key = std::to_string(n) + "." + std::to_string(e);
     key.private_key = std::to_string(n) + "." + std::to_string(d);
@@ -54,9 +56,10 @@ std::string RSA::encrypt_simple(std::string key, std::string msg)
     int j = 1;
     std::string encrypted = "";
     std::string encrypted_d = "";
+    std::string s = "";
     for(int i = 0; i < msg.size(); i++)
     {
-        std::string s = "";
+        
         int ch = msg[i];
         if(ch < 10)
         {   
@@ -74,6 +77,7 @@ std::string RSA::encrypt_simple(std::string key, std::string msg)
         if(j > c)
         {
             j = 1;
+            std::cout << s << std::endl;
             long long nu = stoll(s);
             long long cipher = RSA::mod_pow(nu, e, n);
             
@@ -93,6 +97,7 @@ std::string RSA::encrypt_simple(std::string key, std::string msg)
             {
                 p_encrypted_d = "0" + p_encrypted_d;
             }
+            
             encrypted_d += p_encrypted_d;
             s = "";
         }
@@ -135,6 +140,12 @@ std::string RSA::decrypt_simple(std::string key, std::string msg)
         long long x = stoll(s);
         long long y = mod_pow(x, d, n);
         std::string pro = std::to_string(y);
+        while (pro.size() < c * 3)
+        {
+            pro = "0" + pro;
+        }
+        std::cout << s << " " << pro << std::endl;
+        
         for(int i = 0; i < pro.size(); i += 3)
         {
             std::string sub = pro.substr(i, 3);
