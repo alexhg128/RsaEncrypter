@@ -27,12 +27,6 @@ RSA::KeyPair RSA::generate_simple_keypair(int x, int y)
     }
     long long w, t;
     long long d;
-    /*RSA::xgcd(e, p, w, t);
-    if(w < 0)
-    {
-        w = p + w;
-    }
-    d = w;*/
     d = RSA::inverse2(e, p);
     std::cout << n << " " << p << " " << e << " " << w << " " << t << std::endl;
     RSA::KeyPair key = RSA::KeyPair();
@@ -77,7 +71,6 @@ std::string RSA::encrypt_simple(std::string key, std::string msg)
         if(j > c)
         {
             j = 1;
-            std::cout << s << std::endl;
             long long nu = stoll(s);
             long long cipher = RSA::mod_pow(nu, e, n);
             
@@ -144,7 +137,6 @@ std::string RSA::decrypt_simple(std::string key, std::string msg)
         {
             pro = "0" + pro;
         }
-        std::cout << s << " " << pro << std::endl;
         
         for(int i = 0; i < pro.size(); i += 3)
         {

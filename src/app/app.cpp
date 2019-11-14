@@ -45,7 +45,7 @@ void App::bootstrap()
 
 void App::title()
 {
-    //system("CLS");
+    system("CLS");
     cout << endl;
     cout << TITLE << endl;    
     cout << DIVISOR << endl;    
